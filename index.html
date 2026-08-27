@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -14,7 +15,6 @@
             --text-purple: #c599ff;
             --btn-main-border: #6a25b3;
             --neon-glow: 0 0 15px rgba(168, 85, 247, 0.6);
-            --success-green: #00ff88;
         }
 
         * {
@@ -52,8 +52,6 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .brand-title h1 {
@@ -98,19 +96,6 @@
 
         .status-details {
             color: rgba(255, 255, 255, 0.6); margin-top: 4px; font-family: monospace;
-        }
-
-        .time-display {
-            width: 100%;
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-purple);
-            margin-bottom: 15px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            padding: 6px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
         }
 
         .license-header {
@@ -173,29 +158,160 @@
             align-items: center; 
             gap: 6px; 
             transition: background 0.2s; 
-            cursor: pointer;
         }
         .btn-sub:active { background: rgba(255, 255, 255, 0.1); }
-        .btn-sub.success { border-color: var(--success-green); color: var(--success-green); }
         
         .footer-credit { font-size: 12px; color: rgba(255, 255, 255, 0.3); display: flex; justify-content: center; align-items: center; gap: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="panel-container">
+        <!-- ĐẦU TRANG THƯƠNG HIỆU GAME -->
+        <div class="brand-header">
+            <div class="brand-title">
+                <h1>FREE FIRE MAX</h1>
+                <p>BY MINH QUÂN IOS</p>
+            </div>
+            <div class="status-badge">
+                <div class="status-online">ONLINE</div>
+                <div class="status-details">PING <span id="pingVal">24</span>ms USERS <span id="userVal">4312</span></div>
+            </div>
+        </div>
+
+        <!-- ================= MÀN HÌNH 1: NHẬP LICENSE KEY ================= -->
+        <div id="loginScreen">
+            <div class="license-header">🔑 LICENSE KEY</div>
+            <input type="text" class="input-box" id="licenseInput" placeholder="Nhập mã bản quyền...">
+            
+            <button class="btn-main" onclick="validateKey()">KÍCH HOẠT KEY →</button>
+            
+            <div class="sub-buttons-group">
+                <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-sub">🔓 GET KEY</a>
+                <!-- Thay đường dẫn cert.pem/crt của bạn vào đây -->
+                <a href="https://domain-cua-ban.com/cert.pem" class="btn-sub">🛡️ CERT</a>
+            </div>
+        </div>
+
+        <!-- ================= MÀN HÌNH 2: BẢNG PANEL ĐIỀU KHIỂN ================= -->
+        <div id="panelScreen" style="display: none;">
+            <div class="key-display" id="activatedKeyTitle">KEY ĐÃ KÍCH HOẠT: FREE-5H</div>
+            
+            <div class="info-row">
+                <div class="info-box" id="userIp">14.162.37.119</div>
+                <div class="info-box" id="keyTimer" style="color: #ff5555;">⏳ 04:59:57</div>
+            </div>
+            
+            <div class="aim-control-box">
+                <div class="aim-text-group">
+                    <span class="aim-status">CAN THIỆP GAME ACTIVE</span>
+                    <span class="aim-title">Aim drag 7.0 (Auto Lock)</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="aimToggle" checked onchange="updateAimStatus()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="server-info-box">
+                <div class="server-header">📡 SERVER INFO (BYPASS CONFIG)</div>
+                <div class="server-row">
+                    <span class="server-label">Host:</span>
+                    <span class="server-value" id="customHost">apex.MINHQUANIOS.store</span>
+                </div>
+                <div class="server-row">
+                    <span class="server-label">Port:</span>
+                    <span class="server-value" id="customPort">8888</span>
+                </div>
+            </div>
+
+            <!-- Nút Kích Hoạt ProxyPin -->
+            <button class="btn-main" onclick="activeProxy()">KÍCH HOẠT PROXY →</button>
+
+            <div class="sub-buttons-group">
+                <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-sub">🔓 GET KEY</a>
+                <!-- Thay đường dẫn cert.pem/crt của bạn vào đây -->
+                <a href="https://domain-cua-ban.com/cert.pem" class="btn-sub">🛡️ CERT</a>
+            </div>
+        </div>
         
-        .toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: rgba(0,0,0,0.9);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 12px;
-            border: 1px solid var(--success-green);
-            box-shadow: 0 0 20px rgba(0,255,136,0.3);
-            z-index: 9999;
-            transition: transform 0.3s ease;
-            font-size: 14px;
-            font-weight: 500;
-            max-width: 90%;
-            text-align: center;
+        <div class="footer-credit">⚡ Phát triển bởi Minh Quân iOS</div>
+    </div>
+
+    <!-- ================= JAVASCRIPT XỬ LÝ ================= -->
+    <script>
+        const validKeys = ["VIP-VINE-123", "FREE-5H", "MINHQUANIOS2026", "MINH-QUÂN-IOS-A101-VIP"];
+        let countdownInterval;
+
+        function validateKey() {
+            const inputVal = document.getElementById('licenseInput').value.trim();
+
+            if (inputVal === "") {
+                alert("Vui lòng nhập mã bản quyền!");
+                return;
+            }
+
+            if (validKeys.includes(inputVal)) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('panelScreen').style.display = 'block';
+                document.getElementById('activatedKeyTitle').innerText = "KEY ĐÃ KÍCH HOẠT: " + inputVal;
+                
+                if(inputVal.includes("VIP")) {
+                    document.getElementById('keyTimer').innerText = "⏳ 10:51:39";
+                    document.getElementById('keyTimer').style.color = "#00ffcc";
+                } else {
+                    startCountdown(18000); 
+                }
+            } else {
+                alert("Mã bản quyền không chính xác hoặc đã hết hạn!");
+            }
         }
-        .toast.show { transform: translateX(-50...
+
+        function startCountdown(duration) {
+            let timer = duration;
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            updateTimerDisplay(timer);
+
+            countdownInterval = setInterval(function () {
+                timer--;
+                if (timer < 0) {
+                    clearInterval(countdownInterval);
+                    alert("Key của bạn đã hết hạn!");
+                    location.reload();
+                    return;
+                }
+                updateTimerDisplay(timer);
+            }, 1000);
+        }
+
+        function updateTimerDisplay(timer) {
+            let hours = Math.floor(timer / 3600);
+            let minutes = Math.floor((timer % 3600) / 60);
+            let seconds = timer % 60;
+
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : seconds;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            document.getElementById('keyTimer').innerText = `⏳ ${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateAimStatus() {
+            const isChecked = document.getElementById('aimToggle').checked;
+            console.log("Aim status: " + isChecked);
+        }
+
+        function activeProxy() {
+            const host = document.getElementById('customHost').innerText;
+            const port = document.getElementById('customPort').innerText;
+            
+            window.location.href = `proxypin://connect?host=${host}&port=${port}`;
+
+            setTimeout(() => {
+                alert(`Đã gửi thông số kết nối sang ProxyPin!\nHost: ${host}\nPort: ${port}`);
+            }, 500);
+        }
+    </script>
+</body>
+</html>
