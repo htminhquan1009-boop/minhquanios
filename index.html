@@ -217,14 +217,14 @@
                     <span class="server-label">Host:</span>
                     <span class="server-value" id="customHost">apex.MINHQUANIOS.store</span>
                 </div>
-                <!-- Đã thêm phần hiển thị mã Port ở đây -->
+                <!-- Dòng hiển thị mã Port đã được thêm vào đây -->
                 <div class="server-row">
                     <span class="server-label">Port:</span>
                     <span class="server-value" id="customPort">8888</span>
                 </div>
             </div>
 
-            <!-- Nút Kích Hoạt Proxy giống ảnh mẫu -->
+            <!-- Nút Kích Hoạt Proxy -->
             <button class="btn-main" onclick="activeProxy()">KÍCH HOẠT PROXY →</button>
 
             <div class="sub-buttons-group">
@@ -255,7 +255,7 @@
                 document.getElementById('activatedKeyTitle').innerText = inputVal;
                 
                 if(inputVal.includes("VIP")) {
-                    document.getElementById('keyTimer').innerText = "⏳ 10:51:39"; // Hoặc hiển thị thời gian tùy ý
+                    document.getElementById('keyTimer').innerText = "⏳ 10:51:39";
                     document.getElementById('keyTimer').style.color = "#00ffcc";
                 } else {
                     startCountdown(18000); 
