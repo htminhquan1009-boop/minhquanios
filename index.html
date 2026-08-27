@@ -48,7 +48,7 @@
 
         .brand-header {
             text-align: left;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -105,7 +105,7 @@
             text-align: center;
             font-size: 13px;
             color: var(--text-purple);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: 600;
             letter-spacing: 1px;
             padding: 6px;
@@ -198,4 +198,65 @@
             max-width: 90%;
             text-align: center;
         }
-        .toast.show { transform: translateX(-50...
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+    <!-- Thông báo -->
+    <div id="toast" class="toast"></div>
+
+    <div class="panel-container">
+        <!-- ĐẦU TRANG THƯƠNG HIỆU + TRẠNG THÁI ONLINE -->
+        <div class="brand-header">
+            <div class="brand-title">
+                <h1>FREE FIRE MAX</h1>
+                <p>BY MINH QUÂN IOS</p>
+            </div>
+            <div class="status-badge">
+                <div class="status-online">ONLINE</div>
+                <div class="status-details">PING <span id="pingVal">24</span>ms USERS <span id="userVal">4312</span></div>
+            </div>
+        </div>
+
+        <!-- === THỜI GIAN THỰC === -->
+        <div class="time-display" id="realTime">🕒 15:26:00 - 27/08/2026</div>
+
+        <!-- ================= MÀN HÌNH 1: NHẬP LICENSE KEY ================= -->
+        <div id="loginScreen">
+            <div class="license-header">🔑 LICENSE KEY</div>
+            <input type="text" class="input-box" id="licenseInput" placeholder="Nhập mã bản quyền...">
+            
+            <button class="btn-main" onclick="validateKey()">KÍCH HOẠT KEY →</button>
+            
+            <div class="sub-buttons-group">
+                <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-sub">🔓 GET KEY</a>
+                <button class="btn-sub" id="certBtn" onclick="downloadAndInstallCert()">🛡️ CERT</button>
+            </div>
+        </div>
+
+        <!-- ================= MÀN HÌNH 2: BẢNG PANEL ĐIỀU KHIỂN ================= -->
+        <div id="panelScreen" style="display: none;">
+            <div class="key-display" id="activatedKeyTitle">KEY ĐÃ KÍCH HOẠT: FREE-5H</div>
+            
+            <div class="info-row">
+                <div class="info-box" id="userIp">14.162.37.119</div>
+                <div class="info-box" id="keyTimer" style="color: #ff5555;">⏳ 04:59:57</div>
+            </div>
+            
+            <div class="aim-control-box">
+                <div class="aim-text-group">
+                    <span class="aim-status">CAN THIỆP GAME ACTIVE</span>
+                    <span class="aim-title">Aim drag 7.0 (Auto Lock)</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="aimToggle" checked onchange="updateAimStatus()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="server-info-box">
+                <div class="server-header">📡 SERVER INFO (BYPASS CONFIG)</div>
+                <div class="server-row">
+                    <span class="server-label">Host:</span>
+                    <span class="server-value" id="customHost">apex.MINHQUANIOS.store</span>...
