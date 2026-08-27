@@ -183,7 +183,6 @@
             <div class="license-header">🔑 LICENSE KEY</div>
             <input type="text" class="input-box" id="licenseInput" placeholder="Nhập mã bản quyền...">
             
-            <!-- Nút kích hoạt gọi hàm validateKey() -->
             <button class="btn-main" onclick="validateKey()">KÍCH HOẠT KEY →</button>
             
             <div class="sub-buttons-group">
@@ -224,11 +223,10 @@
         <div class="footer-credit">⚡ Phát triển bởi Minh Quân iOS</div>
     </div>
 
-    <!-- ================= JAVASCRIPT XỬ LÝ ĐĂNG NHẬP KEY ================= -->
+    <!-- ================= JAVASCRIPT XỬ LÝ ĐĂNG NHẬP & ĐẾM NGƯỢC THỜI GIAN ================= -->
     <script>
-        // Danh sách các Key hợp lệ bạn có thể tự thêm hoặc sửa ở đây
-        // Ví dụ: "VIP-VINE-123" là key vĩnh viễn, "FREE-5H" là key 5 tiếng
         const validKeys = ["VIP-VINE-123", "FREE-5H", "MINHQUANIOS2026"];
+        let countdownInterval;
 
         function validateKey() {
             const inputVal = document.getElementById('licenseInput').value.trim();
@@ -238,25 +236,48 @@
                 return;
             }
 
-            // Kiểm tra xem key nhập vào có nằm trong danh sách hợp lệ không
             if (validKeys.includes(inputVal)) {
-                // Ẩn màn hình nhập key, hiện màn hình panel
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('panelScreen').style.display = 'block';
-                
-                // Hiển thị tên key đã kích hoạt lên panel
                 document.getElementById('activatedKeyTitle').innerText = "KEY ĐÃ KÍCH HOẠT: " + inputVal;
                 
+                // Nếu là key vĩnh viễn
                 if(inputVal === "VIP-VINE-123") {
                     document.getElementById('keyTimer').innerText = "⏳ VĨNH VIỄN";
                     document.getElementById('keyTimer').style.color = "#00ffcc";
                 } else {
-                    document.getElementById('keyTimer').innerText = "⏳ 05:00:00";
-                    document.getElementById('keyTimer').style.color = "#ff5555";
+                    // Nếu là key 5 tiếng -> Bắt đầu đếm ngược thời gian (5 giờ = 18000 giây)
+                    startCountdown(5 * 60 * 60); 
                 }
             } else {
                 alert("Mã bản quyền không chính xác hoặc đã hết hạn!");
             }
+        }
+
+        // Hàm chạy đồng hồ đếm ngược
+        function startCountdown(duration) {
+            let timer = duration, hours, minutes, seconds;
+            
+            // Xóa bộ đếm cũ nếu có
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            countdownInterval = setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                document.getElementById('keyTimer').innerText = `⏳ ${hours}:${minutes}:${seconds}`;
+
+                if (--timer < 0) {
+                    clearInterval(countdownInterval);
+                    alert("Key của bạn đã hết hạn!");
+                    location.reload(); // Tự động load lại trang khi hết giờ
+                }
+            }, 1000);
         }
 
         function updateAimStatus() {
