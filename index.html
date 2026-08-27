@@ -141,9 +141,26 @@
         }
         .btn-main:active { transform: scale(0.98); box-shadow: var(--neon-glow); }
 
+        /* Style cho nút chuyển hướng dạng thẻ a */
         .sub-buttons-group { display: flex; gap: 12px; margin-bottom: 24px; }
-        .btn-sub { flex: 1; background: rgba(255, 255, 255, 0.03); color: #ffffff; border: 1px solid var(--border-color); padding: 14px; border-radius: 18px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; }
+        .btn-sub { 
+            flex: 1; 
+            background: rgba(255, 255, 255, 0.03); 
+            color: #ffffff; 
+            border: 1px solid var(--border-color); 
+            padding: 14px; 
+            border-radius: 18px; 
+            font-size: 13px; 
+            font-weight: 600; 
+            text-decoration: none; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 6px; 
+            transition: background 0.2s; 
+        }
         .btn-sub:active { background: rgba(255, 255, 255, 0.1); }
+        
         .footer-credit { font-size: 12px; color: rgba(255, 255, 255, 0.3); display: flex; justify-content: center; align-items: center; gap: 4px; }
     </style>
 </head>
@@ -170,8 +187,9 @@
             <button class="btn-main" onclick="validateKey()">KÍCH HOẠT KEY →</button>
             
             <div class="sub-buttons-group">
-                <button class="btn-sub" id="btnGetKey" onclick="getFreeKey()">🔓 GET KEY</button>
-                <button class="btn-sub" onclick="downloadCert()">🛡️ CERT</button>
+                <!-- Đã đổi sang thẻ a (href) để Safari trên iPhone nhận diện và mở link trực tiếp -->
+                <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-sub">🔓 GET KEY</a>
+                <a href="https://link-tai-cert-cua-ban.com" target="_blank" class="btn-sub">🛡️ CERT</a>
             </div>
         </div>
 
@@ -207,21 +225,8 @@
         <div class="footer-credit">⚡ Phát triển bởi Minh Quân iOS</div>
     </div>
 
-    <!-- ================= JAVASCRIPT ĐIỀU HƯỚNG MỞ TAB MỚI ================= -->
     <script>
-        // 🛠️ HÃY THAY ĐỔI CÁC ĐƯỜNG LINK CỦA BẠN VÀO TRONG DẤU NHÁY KÉP ("...") BÊN DƯỚI:
-
-        // 1. Khi ấn nút GET KEY
-        function getFreeKey() {
-            window.open("https://link-lay-key-cua-ban.com", "_blank");
-        }
-
-        // 2. Khi ấn nút CERT
-        function downloadCert() {
-            window.open("https://link-tai-cert-cua-ban.com", "_blank");
-        }
-
-        // 3. Xử lý nút KÍCH HOẠT KEY
+        // Xử lý nút KÍCH HOẠT KEY
         function validateKey() {
             const key = document.getElementById('licenseInput').value;
             if(key.trim() === "") {
@@ -233,7 +238,7 @@
             document.getElementById('activatedKeyTitle').innerText = "ID KEY: " + key;
         }
 
-        // 4. Xử lý bật/tắt aim
+        // Xử lý bật/tắt aim
         function updateAimStatus() {
             const isChecked = document.getElementById('aimToggle').checked;
             console.log("Aim status: " + isChecked);
