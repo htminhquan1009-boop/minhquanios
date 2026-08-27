@@ -141,7 +141,6 @@
         }
         .btn-main:active { transform: scale(0.98); box-shadow: var(--neon-glow); }
 
-        /* Style cho nút chuyển hướng dạng thẻ a */
         .sub-buttons-group { display: flex; gap: 12px; margin-bottom: 24px; }
         .btn-sub { 
             flex: 1; 
@@ -184,10 +183,10 @@
             <div class="license-header">🔑 LICENSE KEY</div>
             <input type="text" class="input-box" id="licenseInput" placeholder="Nhập mã bản quyền...">
             
+            <!-- Nút kích hoạt gọi hàm validateKey() -->
             <button class="btn-main" onclick="validateKey()">KÍCH HOẠT KEY →</button>
             
             <div class="sub-buttons-group">
-                <!-- Đã đổi sang thẻ a (href) để Safari trên iPhone nhận diện và mở link trực tiếp -->
                 <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-sub">🔓 GET KEY</a>
                 <a href="https://link-tai-cert-cua-ban.com" target="_blank" class="btn-sub">🛡️ CERT</a>
             </div>
@@ -199,7 +198,7 @@
             
             <div class="info-row">
                 <div class="info-box" id="userIp">14.162.37.119</div>
-                <div class="info-box" id="keyTimer" style="color: #ff5555;">⏳ 00:00:00</div>
+                <div class="info-box" id="keyTimer" style="color: #ff5555;">⏳ 05:00:00</div>
             </div>
             
             <div class="aim-control-box">
@@ -225,20 +224,41 @@
         <div class="footer-credit">⚡ Phát triển bởi Minh Quân iOS</div>
     </div>
 
+    <!-- ================= JAVASCRIPT XỬ LÝ ĐĂNG NHẬP KEY ================= -->
     <script>
-        // Xử lý nút KÍCH HOẠT KEY
+        // Danh sách các Key hợp lệ bạn có thể tự thêm hoặc sửa ở đây
+        // Ví dụ: "VIP-VINE-123" là key vĩnh viễn, "FREE-5H" là key 5 tiếng
+        const validKeys = ["VIP-VINE-123", "FREE-5H", "MINHQUANIOS2026"];
+
         function validateKey() {
-            const key = document.getElementById('licenseInput').value;
-            if(key.trim() === "") {
+            const inputVal = document.getElementById('licenseInput').value.trim();
+
+            if (inputVal === "") {
                 alert("Vui lòng nhập mã bản quyền!");
                 return;
             }
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('panelScreen').style.display = 'block';
-            document.getElementById('activatedKeyTitle').innerText = "ID KEY: " + key;
+
+            // Kiểm tra xem key nhập vào có nằm trong danh sách hợp lệ không
+            if (validKeys.includes(inputVal)) {
+                // Ẩn màn hình nhập key, hiện màn hình panel
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('panelScreen').style.display = 'block';
+                
+                // Hiển thị tên key đã kích hoạt lên panel
+                document.getElementById('activatedKeyTitle').innerText = "KEY ĐÃ KÍCH HOẠT: " + inputVal;
+                
+                if(inputVal === "VIP-VINE-123") {
+                    document.getElementById('keyTimer').innerText = "⏳ VĨNH VIỄN";
+                    document.getElementById('keyTimer').style.color = "#00ffcc";
+                } else {
+                    document.getElementById('keyTimer').innerText = "⏳ 05:00:00";
+                    document.getElementById('keyTimer').style.color = "#ff5555";
+                }
+            } else {
+                alert("Mã bản quyền không chính xác hoặc đã hết hạn!");
+            }
         }
 
-        // Xử lý bật/tắt aim
         function updateAimStatus() {
             const isChecked = document.getElementById('aimToggle').checked;
             console.log("Aim status: " + isChecked);
