@@ -134,7 +134,7 @@
         .server-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(255, 255, 255, 0.4); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
         .server-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
         .server-label { color: rgba(255, 255, 255, 0.6); }
-        .server-value { font-weight: 500; color: #ffffff; }
+        .server-value { font-weight: 500; color: #ffffff; font-family: monospace; }
 
         .btn-main {
             background: rgba(168, 85, 247, 0.1); color: #ffffff; border: 1px solid #a855f7; width: 100%; padding: 18px; border-radius: 20px; font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; margin-bottom: 20px; box-shadow: inset 0 0 10px rgba(168, 85, 247, 0.2); transition: all 0.2s ease;
@@ -193,17 +193,17 @@
 
         <!-- ================= MÀN HÌNH 2: BẢNG PANEL ĐIỀU KHIỂN ================= -->
         <div id="panelScreen" style="display: none;">
-            <div class="key-display" id="activatedKeyTitle">ID: LOADING...</div>
+            <div class="key-display" id="activatedKeyTitle">KEY ĐÃ KÍCH HOẠT: FREE-5H</div>
             
             <div class="info-row">
                 <div class="info-box" id="userIp">14.162.37.119</div>
-                <div class="info-box" id="keyTimer" style="color: #ff5555;">⏳ 05:00:00</div>
+                <div class="info-box" id="keyTimer" style="color: #ff5555;">⏳ 04:59:57</div>
             </div>
             
             <div class="aim-control-box">
                 <div class="aim-text-group">
-                    <span class="aim-status">AIM ACTIVE</span>
-                    <span class="aim-title">Aim drag 7.0</span>
+                    <span class="aim-status">CAN THIỆP GAME ACTIVE</span>
+                    <span class="aim-title">Aim drag 7.0 (Auto Lock)</span>
                 </div>
                 <label class="switch">
                     <input type="checkbox" id="aimToggle" checked onchange="updateAimStatus()">
@@ -212,19 +212,19 @@
             </div>
             
             <div class="server-info-box">
-                <div class="server-header">💻 SERVER INFO</div>
+                <div class="server-header">📡 SERVER INFO (BYPASS CONFIG)</div>
                 <div class="server-row">
                     <span class="server-label">Host:</span>
                     <span class="server-value" id="customHost">apex.MINHQUANIOS.store</span>
                 </div>
-                <!-- Dòng hiển thị mã Port đã được thêm vào đây -->
+                <!-- Dòng mã Port dùng để liên kết ProxyPin -->
                 <div class="server-row">
                     <span class="server-label">Port:</span>
                     <span class="server-value" id="customPort">8888</span>
                 </div>
             </div>
 
-            <!-- Nút Kích Hoạt Proxy -->
+            <!-- Nút Kích Hoạt ProxyPin -->
             <button class="btn-main" onclick="activeProxy()">KÍCH HOẠT PROXY →</button>
 
             <div class="sub-buttons-group">
@@ -233,7 +233,7 @@
             </div>
         </div>
         
-        <div class="footer-credit">minhquanios</div>
+        <div class="footer-credit">⚡ Phát triển bởi Minh Quân iOS</div>
     </div>
 
     <!-- ================= JAVASCRIPT XỬ LÝ ================= -->
@@ -252,7 +252,7 @@
             if (validKeys.includes(inputVal)) {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('panelScreen').style.display = 'block';
-                document.getElementById('activatedKeyTitle').innerText = inputVal;
+                document.getElementById('activatedKeyTitle').innerText = "KEY ĐÃ KÍCH HOẠT: " + inputVal;
                 
                 if(inputVal.includes("VIP")) {
                     document.getElementById('keyTimer').innerText = "⏳ 10:51:39";
@@ -266,7 +266,7 @@
         }
 
         function startCountdown(duration) {
-            let timer = duration, hours, minutes, seconds;
+            let timer = duration;
             if (countdownInterval) clearInterval(countdownInterval);
 
             updateTimerDisplay(timer);
@@ -300,8 +300,17 @@
             console.log("Aim status: " + isChecked);
         }
 
+        // Tự động chuyển tiếp tham số Host & Port sang ứng dụng ProxyPin
         function activeProxy() {
-            alert("Đã kích hoạt Proxy thành công!");
+            const host = document.getElementById('customHost').innerText;
+            const port = document.getElementById('customPort').innerText;
+            
+            // Khởi chạy Custom URL Scheme của ProxyPin
+            window.location.href = `proxypin://connect?host=${host}&port=${port}`;
+
+            setTimeout(() => {
+                alert(`Đã gửi thông số kết nối sang ProxyPin!\nHost: ${host}\nPort: ${port}`);
+            }, 500);
         }
     </script>
 </body>
