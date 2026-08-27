@@ -130,7 +130,7 @@
         input:checked + .slider { background-color: #a855f7; }
         input:checked + .slider:before { transform: translateX(24px); }
 
-        .server-info-box { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 18px; text-align: left; margin-bottom: 28px; }
+        .server-info-box { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 18px; text-align: left; margin-bottom: 20px; }
         .server-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(255, 255, 255, 0.4); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
         .server-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
         .server-label { color: rgba(255, 255, 255, 0.6); }
@@ -141,7 +141,7 @@
         }
         .btn-main:active { transform: scale(0.98); box-shadow: var(--neon-glow); }
 
-        .sub-buttons-group { display: flex; gap: 12px; margin-bottom: 24px; }
+        .sub-buttons-group { display: flex; gap: 12px; margin-bottom: 20px; }
         .btn-sub { 
             flex: 1; 
             background: rgba(255, 255, 255, 0.03); 
@@ -202,8 +202,8 @@
             
             <div class="aim-control-box">
                 <div class="aim-text-group">
-                    <span class="aim-status">CAN THIỆP GAME ACTIVE</span>
-                    <span class="aim-title">Aim drag 7.0 (Auto Lock)</span>
+                    <span class="aim-status">AIM ACTIVE</span>
+                    <span class="aim-title">Aim drag 7.0</span>
                 </div>
                 <label class="switch">
                     <input type="checkbox" id="aimToggle" checked onchange="updateAimStatus()">
@@ -212,20 +212,33 @@
             </div>
             
             <div class="server-info-box">
-                <div class="server-header">📡 SERVER INFO (BYPASS CONFIG)</div>
+                <div class="server-header">💻 SERVER INFO</div>
                 <div class="server-row">
                     <span class="server-label">Host:</span>
                     <span class="server-value" id="customHost">apex.MINHQUANIOS.store</span>
                 </div>
+                <!-- Đã thêm phần hiển thị mã Port ở đây -->
+                <div class="server-row">
+                    <span class="server-label">Port:</span>
+                    <span class="server-value" id="customPort">8888</span>
+                </div>
+            </div>
+
+            <!-- Nút Kích Hoạt Proxy giống ảnh mẫu -->
+            <button class="btn-main" onclick="activeProxy()">KÍCH HOẠT PROXY →</button>
+
+            <div class="sub-buttons-group">
+                <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-sub">🔓 GET KEY</a>
+                <a href="https://link-tai-cert-cua-ban.com" target="_blank" class="btn-sub">🛡️ CERT</a>
             </div>
         </div>
         
-        <div class="footer-credit">⚡ Phát triển bởi Minh Quân iOS</div>
+        <div class="footer-credit">minhquanios</div>
     </div>
 
-    <!-- ================= JAVASCRIPT XỬ LÝ ĐĂNG NHẬP & ĐẾM NGƯỢC THỜI GIAN ================= -->
+    <!-- ================= JAVASCRIPT XỬ LÝ ================= -->
     <script>
-        const validKeys = ["VIP-VINE-123", "FREE-5H", "MINHQUANIOS2026"];
+        const validKeys = ["VIP-VINE-123", "FREE-5H", "MINHQUANIOS2026", "MINH-QUÂN-IOS-A101-VIP"];
         let countdownInterval;
 
         function validateKey() {
@@ -239,50 +252,56 @@
             if (validKeys.includes(inputVal)) {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('panelScreen').style.display = 'block';
-                document.getElementById('activatedKeyTitle').innerText = "KEY ĐÃ KÍCH HOẠT: " + inputVal;
+                document.getElementById('activatedKeyTitle').innerText = inputVal;
                 
-                // Nếu là key vĩnh viễn
-                if(inputVal === "VIP-VINE-123") {
-                    document.getElementById('keyTimer').innerText = "⏳ VĨNH VIỄN";
+                if(inputVal.includes("VIP")) {
+                    document.getElementById('keyTimer').innerText = "⏳ 10:51:39"; // Hoặc hiển thị thời gian tùy ý
                     document.getElementById('keyTimer').style.color = "#00ffcc";
                 } else {
-                    // Nếu là key 5 tiếng -> Bắt đầu đếm ngược thời gian (5 giờ = 18000 giây)
-                    startCountdown(5 * 60 * 60); 
+                    startCountdown(18000); 
                 }
             } else {
                 alert("Mã bản quyền không chính xác hoặc đã hết hạn!");
             }
         }
 
-        // Hàm chạy đồng hồ đếm ngược
         function startCountdown(duration) {
             let timer = duration, hours, minutes, seconds;
-            
-            // Xóa bộ đếm cũ nếu có
             if (countdownInterval) clearInterval(countdownInterval);
 
+            updateTimerDisplay(timer);
+
             countdownInterval = setInterval(function () {
-                hours = parseInt(timer / 3600, 10);
-                minutes = parseInt((timer % 3600) / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-
-                hours = hours < 10 ? "0" + hours : hours;
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                document.getElementById('keyTimer').innerText = `⏳ ${hours}:${minutes}:${seconds}`;
-
-                if (--timer < 0) {
+                timer--;
+                if (timer < 0) {
                     clearInterval(countdownInterval);
                     alert("Key của bạn đã hết hạn!");
-                    location.reload(); // Tự động load lại trang khi hết giờ
+                    location.reload();
+                    return;
                 }
+                updateTimerDisplay(timer);
             }, 1000);
+        }
+
+        function updateTimerDisplay(timer) {
+            let hours = Math.floor(timer / 3600);
+            let minutes = Math.floor((timer % 3600) / 60);
+            let seconds = timer % 60;
+
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            document.getElementById('keyTimer').innerText = `⏳ ${hours}:${minutes}:${seconds}`;
         }
 
         function updateAimStatus() {
             const isChecked = document.getElementById('aimToggle').checked;
             console.log("Aim status: " + isChecked);
+        }
+
+        function activeProxy() {
+            alert("Đã kích hoạt Proxy thành công!");
         }
     </script>
 </body>
