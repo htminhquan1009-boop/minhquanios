@@ -187,7 +187,8 @@
             
             <div class="sub-buttons-group">
                 <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-sub">🔓 GET KEY</a>
-                <a href="https://link-tai-cert-cua-ban.com" target="_blank" class="btn-sub">🛡️ CERT</a>
+                <!-- Thay đường dẫn cert.pem/crt của bạn vào đây -->
+                <a href="https://domain-cua-ban.com/cert.pem" class="btn-sub">🛡️ CERT</a>
             </div>
         </div>
 
@@ -217,7 +218,6 @@
                     <span class="server-label">Host:</span>
                     <span class="server-value" id="customHost">apex.MINHQUANIOS.store</span>
                 </div>
-                <!-- Dòng mã Port dùng để liên kết ProxyPin -->
                 <div class="server-row">
                     <span class="server-label">Port:</span>
                     <span class="server-value" id="customPort">8888</span>
@@ -229,7 +229,8 @@
 
             <div class="sub-buttons-group">
                 <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-sub">🔓 GET KEY</a>
-                <a href="https://link-tai-cert-cua-ban.com" target="_blank" class="btn-sub">🛡️ CERT</a>
+                <!-- Thay đường dẫn cert.pem/crt của bạn vào đây -->
+                <a href="https://domain-cua-ban.com/cert.pem" class="btn-sub">🛡️ CERT</a>
             </div>
         </div>
         
@@ -289,7 +290,7 @@
             let seconds = timer % 60;
 
             hours = hours < 10 ? "0" + hours : hours;
-            minutes = minutes < 10 ? "0" + minutes : minutes;
+            minutes = minutes < 10 ? "0" + minutes : seconds;
             seconds = seconds < 10 ? "0" + seconds : seconds;
 
             document.getElementById('keyTimer').innerText = `⏳ ${hours}:${minutes}:${seconds}`;
@@ -300,12 +301,10 @@
             console.log("Aim status: " + isChecked);
         }
 
-        // Tự động chuyển tiếp tham số Host & Port sang ứng dụng ProxyPin
         function activeProxy() {
             const host = document.getElementById('customHost').innerText;
             const port = document.getElementById('customPort').innerText;
             
-            // Khởi chạy Custom URL Scheme của ProxyPin
             window.location.href = `proxypin://connect?host=${host}&port=${port}`;
 
             setTimeout(() => {
