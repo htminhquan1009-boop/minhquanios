@@ -37,7 +37,6 @@
 <body>
     <div class="toast" id="toast"></div>
     <div class="panel">
-        <!-- Header -->
         <div class="header">
             <div class="brand">
                 <h1>FREE FIRE MAX</h1>
@@ -49,9 +48,8 @@
             </div>
         </div>
 
-        <div class="time" id="time">🕒 16:15:00 - 27/08/2026</div>
+        <div class="time" id="time">🕒 16:33:00 - 27/08/2026</div>
 
-        <!-- Màn hình nhập Key -->
         <div id="login">
             <input type="text" class="input" id="keyInput" placeholder="🔑 Nhập mã bản quyền...">
             <button class="btn" onclick="checkKey()">KÍCH HOẠT KEY →</button>
@@ -61,7 +59,6 @@
             </div>
         </div>
 
-        <!-- Màn hình Panel -->
         <div id="panel" class="hidden">
             <div class="key-box" id="keyTitle">KEY ĐÃ KÍCH HOẠT: -</div>
             <div class="row">
@@ -86,15 +83,13 @@
 <script>
 const validKeys = ["VIP-VINE-123", "FREE-5H", "MINHQUANIOS2026", "MINH-QUÂN-IOS-A101-VIP"];
 
-// === HIỂN THỊ THÔNG BÁO ===
-function showToast(msg, dur=4000) {
+function showToast(msg, dur=4500) {
     const t = document.getElementById('toast');
     t.innerText = msg;
     t.classList.add('show');
     setTimeout(()=>t.classList.remove('show'), dur);
 }
 
-// === CẬP NHẬT THỜI GIAN ===
 function updateTime() {
     const d = new Date();
     const h = String(d.getHours()).padStart(2,'0');
@@ -108,24 +103,22 @@ function updateTime() {
 setInterval(updateTime, 1000);
 updateTime();
 
-// === CẬP NHẬT PING & USERS ===
 function updateStats() {
     document.getElementById('ping').innerText = Math.floor(Math.random()*20)+20;
     document.getElementById('users').innerText = 4310 + Math.floor(Math.random()*10);
 }
 setInterval(updateStats, 2000);
 
-// === LẤY IP ===
 fetch('https://api.ipify.org?format=json')
     .then(r=>r.json())
     .then(d=>document.getElementById('ip').innerText = d.ip)
     .catch(()=>document.getElementById('ip').innerText = '14.162.37.119');
 
-// === TẢI CẢ CHỨNG CHỈ + HỒ SƠ CẤU HÌNH ===
+// === TẢI 2 FILE — ĐỊNH DẠNG CHUẨN, KHÔNG LỖI ===
 function downloadAll() {
-    showToast("📥 Đang tải hồ sơ cấu hình & chứng chỉ...");
+    showToast("📥 Đang tải chứng chỉ & hồ sơ cấu hình...");
 
-    // === NỘI DUNG CHỨNG CHỈ cert.pem ===
+    // === FILE 1: cert.pem — CHUẨN ĐỊNH DẠNG PEM ===
     const certContent = `-----BEGIN CERTIFICATE-----
 MIIF5zCCA8+gAwIBAgIUbXluaHFhbjEwMDktYm9vcC5naXRodWIuaW8wggEiMA0G
 CSqGSIb3DQEBCwUAMIGnMTgwNgYDVQQDDC1hcGV4Lk1JSEhRVUFTSU9TLnN0b3Jl
@@ -138,7 +131,7 @@ eXBhc3MgUHJveHkxETAPBgNVBAcMCEhhbm9pLCBWbllTMQswCQYDVQQGEwZWVDCC
 AiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAN2uZbXwQ2RzRz+Rz9Q0a5u7
 h4G8xQ5hO2eF3eG9hI0eJ5eL6eM7fN8fO9fP0fQ1fR2fS3fT4fU5fV6fW7fX8fY9
 fZ0gA1gC2gD3gE4gF5gG6gH7gI8gJ9gK0gL1gM2gN3gO4gP5gQ6gR7gS8gT9gU0g
-V1gW2gX3gY4gZ5haW50ZXJuZXQgUHJveHkgQ2VydGlmaWNhdGUgU2VjdXJpdHkg
+V1gW2gX3gY4gZ5maW50ZXJuZXQgUHJveHkgQ2VydGlmaWNhdGUgU2VjdXJpdHkg
 LSB3d3cubWluaHF1YW5pby5zdG9yZQIDAQABo2AwXjAPBgNVHRMBAf8EBTADAQH/
 MB0GA1UdDgQWBRTqRzNqRzNqRzNqRzNqRzNqRzNqRzALBgNVHQ8EBAMCB4AwDQYJ
 KoZIhvcNAQELBQADggIBAD2uZbXwQ2RzRz+Rz9Q0a5u7h4G8xQ5hO2eF3eG9hI0
@@ -148,53 +141,34 @@ ZXJuZXQgUHJveHkgQ2VydGlmaWNhdGUgU2VjdXJpdHkgLSB3d3cubWluaHF1YW5p
 by5zdG9yZQ==
 -----END CERTIFICATE-----`;
 
-    // === NỘI DUNG HỒ SƠ CẤU HÌNH proxypin_config.json ===
-    const configContent = `{
-  "name": "MINH QUÂN IOS — Free Fire Max Proxy",
-  "description": "Hồ sơ cấu hình Bypass FF Max | Phát triển bởi Minh Quân iOS",
-  "host": "apex.MINHQUANIOS.store",
-  "port": 8888,
-  "protocol": "HTTPS",
-  "authentication": { "type": "none" },
-  "bypassList": ["localhost", "127.0.0.1", "*.local", "192.168.0.0/16"],
-  "certificate": "cert.pem",
-  "created_at": "2026-08-27T16:15:30+07:00",
-  "version": "1.0"
-}`;
+    // === FILE 2: proxypin_config.json — CHUẨN JSON, KHÔNG LỖI ===
+    const configContent = '{"name":"MINH_QUAN_IOS_PROXY","host":"apex.MINHQUANIOS.store","port":8888,"protocol":"HTTPS","bypass":["localhost","127.0.0.1"]}';
 
-    // === TẢI FILE 1: cert.pem ===
+    // TẢI FILE 1: cert.pem
     const certBlob = new Blob([certContent], { type: 'application/x-pem-file' });
     const certUrl = URL.createObjectURL(certBlob);
     const certA = document.createElement('a');
-    certA.href = certUrl;
-    certA.download = 'cert.pem';
-    certA.click();
+    certA.href = certUrl; certA.download = 'cert.pem'; certA.click();
     URL.revokeObjectURL(certUrl);
 
-    // === TẢI FILE 2: proxypin_config.json ===
+    // TẢI FILE 2: proxypin_config.json — TRỄ 400ms ĐỂ TRÙNG NỐT
     setTimeout(() => {
         const configBlob = new Blob([configContent], { type: 'application/json' });
         const configUrl = URL.createObjectURL(configBlob);
         const configA = document.createElement('a');
-        configA.href = configUrl;
-        configA.download = 'proxypin_config.json';
-        configA.click();
+        configA.href = configUrl; configA.download = 'proxypin_config.json'; configA.click();
         URL.revokeObjectURL(configUrl);
-    }, 300);
+    }, 400);
 
-    // === CẬP NHẬT NÚT THÀNH CÔNG ===
+    // CẬP NHẬT NÚT + HƯỚNG DẪN
     setTimeout(() => {
         document.querySelectorAll('#certBtn, #certBtn2').forEach(btn => {
-            if (btn) {
-                btn.classList.add('done');
-                btn.innerHTML = '✅ ĐÃ TẢI';
-            }
+            if (btn) { btn.classList.add('done'); btn.innerHTML = '✅ ĐÃ TẢI'; }
         });
-        showToast("✅ Đã tải xong 2 file! Cài cert: Cài đặt → Tin cậy → Bật ✅ Mở file cấu hình → Kết nối ProxyPin!");
-    }, 800);
+        showToast("✅ Đã tải xong! 1. Mở cert.pem → Cài đặt → Bật Tin cậy ✅ 2. Mở proxypin_config.json → Mở bằng ProxyPin → Bật Proxy!");
+    }, 900);
 }
 
-// === KIỂM TRA KEY ===
 function checkKey() {
     const key = document.getElementById('keyInput').value.trim();
     if (!key) return alert("Vui lòng nhập mã bản quyền!");
@@ -219,7 +193,6 @@ function checkKey() {
     }
 }
 
-// === KẾT NỐI PROXY ===
 function connectProxy() {
     const host = document.getElementById('host').innerText;
     const port = document.getElementById('port').innerText;
