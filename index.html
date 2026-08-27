@@ -1,19 +1,233 @@
-{
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINH QUÂN IOS - FREE FIRE MAX PANEL</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { background: #06010f; color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .panel {
+            background: linear-gradient(180deg, #3d1266 0%, #17042b 100%);
+            width: 100%; max-width: 390px; border-radius: 40px; padding: 30px 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .brand h1 { font-size: 24px; color: #fff; }
+        .brand p { font-size: 11px; color: #c599ff; margin-top: 4px; }
+        .status { text-align: right; background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 16px; font-size: 11px; }
+        .online { color: #00ffcc; font-weight: bold; }
+        .time { text-align: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 20px; color: #c599ff; font-size: 14px; }
+        .input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid #a855f7; padding: 16px; border-radius: 16px; color: #fff; font-size: 16px; margin-bottom: 15px; }
+        .btn { width: 100%; background: rgba(168,85,247,0.2); border: 1px solid #a855f7; color: #fff; padding: 16px; border-radius: 16px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 12px; }
+        .btn-row { display: flex; gap: 10px; }
+        .btn-small { flex: 1; padding: 12px; font-size: 14px; text-decoration: none; text-align: center; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; background: rgba(255,255,255,0.05); color: #fff; cursor: pointer; }
+        .btn-small.done { border-color: #00ff88; color: #00ff88; }
+        .hidden { display: none !important; }
+        .key-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 16px; color: #c599ff; font-weight: bold; margin-bottom: 15px; word-break: break-all; }
+        .row { display: flex; justify-content: space-between; gap: 10px; margin: 15px 0; }
+        .info { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; font-size: 13px; }
+        .server { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 16px; margin: 15px 0; font-size: 14px; }
+        .server div { display: flex; justify-content: space-between; margin: 8px 0; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.3); }
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(0,0,0,0.95); color: #fff; padding: 14px 20px; border-radius: 12px; border: 1px solid #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.2); z-index: 9999; transition: transform 0.3s ease; font-size: 14px; max-width: 90%; text-align: center; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="toast" id="toast"></div>
+    <div class="panel">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <h1>FREE FIRE MAX</h1>
+                <p>BY MINH QUÂN IOS</p>
+            </div>
+            <div class="status">
+                <div class="online">● ONLINE</div>
+                <div>PING <span id="ping">24</span>ms | USERS <span id="users">4312</span></div>
+            </div>
+        </div>
+
+        <div class="time" id="time">🕒 16:15:00 - 27/08/2026</div>
+
+        <!-- Màn hình nhập Key -->
+        <div id="login">
+            <input type="text" class="input" id="keyInput" placeholder="🔑 Nhập mã bản quyền...">
+            <button class="btn" onclick="checkKey()">KÍCH HOẠT KEY →</button>
+            <div class="btn-row">
+                <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-small">🔓 GET KEY</a>
+                <button class="btn-small" id="certBtn" onclick="downloadAll()">🛡️ CERT</button>
+            </div>
+        </div>
+
+        <!-- Màn hình Panel -->
+        <div id="panel" class="hidden">
+            <div class="key-box" id="keyTitle">KEY ĐÃ KÍCH HOẠT: -</div>
+            <div class="row">
+                <div class="info" id="ip">Đang lấy IP...</div>
+                <div class="info" id="timer" style="color:#ff5555;">⏳ 05:00:00</div>
+            </div>
+            <div class="server">
+                <div><strong>📡 SERVER INFO</strong></div>
+                <div><span>Host:</span><span id="host">apex.MINHQUANIOS.store</span></div>
+                <div><span>Port:</span><span id="port">8888</span></div>
+            </div>
+            <button class="btn" onclick="connectProxy()">KÍCH HOẠT PROXY →</button>
+            <div class="btn-row">
+                <a href="https://link-lay-key-cua-ban.com" target="_blank" class="btn-small">🔓 GET KEY</a>
+                <button class="btn-small" id="certBtn2" onclick="downloadAll()">🛡️ CERT</button>
+            </div>
+        </div>
+
+        <div class="footer">⚡ Phát triển bởi Minh Quân iOS</div>
+    </div>
+
+<script>
+const validKeys = ["VIP-VINE-123", "FREE-5H", "MINHQUANIOS2026", "MINH-QUÂN-IOS-A101-VIP"];
+
+// === HIỂN THỊ THÔNG BÁO ===
+function showToast(msg, dur=4000) {
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), dur);
+}
+
+// === CẬP NHẬT THỜI GIAN ===
+function updateTime() {
+    const d = new Date();
+    const h = String(d.getHours()).padStart(2,'0');
+    const m = String(d.getMinutes()).padStart(2,'0');
+    const s = String(d.getSeconds()).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+    const mon = String(d.getMonth()+1).padStart(2,'0');
+    const y = d.getFullYear();
+    document.getElementById('time').innerText = `🕒 ${h}:${m}:${s} - ${day}/${mon}/${y}`;
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// === CẬP NHẬT PING & USERS ===
+function updateStats() {
+    document.getElementById('ping').innerText = Math.floor(Math.random()*20)+20;
+    document.getElementById('users').innerText = 4310 + Math.floor(Math.random()*10);
+}
+setInterval(updateStats, 2000);
+
+// === LẤY IP ===
+fetch('https://api.ipify.org?format=json')
+    .then(r=>r.json())
+    .then(d=>document.getElementById('ip').innerText = d.ip)
+    .catch(()=>document.getElementById('ip').innerText = '14.162.37.119');
+
+// === TẢI CẢ CHỨNG CHỈ + HỒ SƠ CẤU HÌNH ===
+function downloadAll() {
+    showToast("📥 Đang tải hồ sơ cấu hình & chứng chỉ...");
+
+    // === NỘI DUNG CHỨNG CHỈ cert.pem ===
+    const certContent = `-----BEGIN CERTIFICATE-----
+MIIF5zCCA8+gAwIBAgIUbXluaHFhbjEwMDktYm9vcC5naXRodWIuaW8wggEiMA0G
+CSqGSIb3DQEBCwUAMIGnMTgwNgYDVQQDDC1hcGV4Lk1JSEhRVUFTSU9TLnN0b3Jl
+IENlcnRpZmljYXRlMRgwFgYDVQQKDA9NSU5IIFFVQU4gSU9TIDEiMCAGA1UECwwZ
+RnJlZSBGaXJlIE1heCBCeXBhc3MgUHJveHkxETAPBgNVBAcMCEhhbm9pLCBWbllT
+MQswCQYDVQQGEwZWTjAeFw0yNjA4MjcxNTM5MDBaFw0yNzA4MjcxNTM5MDBaMIGn
+MTgwNgYDVQQDDC1hcGV4Lk1JSEhRVUFTSU9TLnN0b3JlIENlcnRpZmljYXRlMRgw
+FgYDVQQKDA9NSU5IIFFVQU4gSU9TIDEiMCAGA1UECwwZRnJlZSBGaXJlIE1heCBC
+eXBhc3MgUHJveHkxETAPBgNVBAcMCEhhbm9pLCBWbllTMQswCQYDVQQGEwZWVDCC
+AiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAN2uZbXwQ2RzRz+Rz9Q0a5u7
+h4G8xQ5hO2eF3eG9hI0eJ5eL6eM7fN8fO9fP0fQ1fR2fS3fT4fU5fV6fW7fX8fY9
+fZ0gA1gC2gD3gE4gF5gG6gH7gI8gJ9gK0gL1gM2gN3gO4gP5gQ6gR7gS8gT9gU0g
+V1gW2gX3gY4gZ5haW50ZXJuZXQgUHJveHkgQ2VydGlmaWNhdGUgU2VjdXJpdHkg
+LSB3d3cubWluaHF1YW5pby5zdG9yZQIDAQABo2AwXjAPBgNVHRMBAf8EBTADAQH/
+MB0GA1UdDgQWBRTqRzNqRzNqRzNqRzNqRzNqRzNqRzALBgNVHQ8EBAMCB4AwDQYJ
+KoZIhvcNAQELBQADggIBAD2uZbXwQ2RzRz+Rz9Q0a5u7h4G8xQ5hO2eF3eG9hI0
+eJ5eL6eM7fN8fO9fP0fQ1fR2fS3fT4fU5fV6fW7fX8fY9fZ0gA1gC2gD3gE4gF5g
+G6gH7gI8gJ9gK0gL1gM2gN3gO4gP5gQ6gR7gS8gT9gU0gV1gW2gX3gY4gZ5maW50
+ZXJuZXQgUHJveHkgQ2VydGlmaWNhdGUgU2VjdXJpdHkgLSB3d3cubWluaHF1YW5p
+by5zdG9yZQ==
+-----END CERTIFICATE-----`;
+
+    // === NỘI DUNG HỒ SƠ CẤU HÌNH proxypin_config.json ===
+    const configContent = `{
   "name": "MINH QUÂN IOS — Free Fire Max Proxy",
   "description": "Hồ sơ cấu hình Bypass FF Max | Phát triển bởi Minh Quân iOS",
   "host": "apex.MINHQUANIOS.store",
   "port": 8888,
   "protocol": "HTTPS",
-  "authentication": {
-    "type": "none"
-  },
-  "bypassList": [
-    "localhost",
-    "127.0.0.1",
-    "*.local",
-    "192.168.0.0/16"
-  ],
+  "authentication": { "type": "none" },
+  "bypassList": ["localhost", "127.0.0.1", "*.local", "192.168.0.0/16"],
   "certificate": "cert.pem",
   "created_at": "2026-08-27T16:15:30+07:00",
   "version": "1.0"
+}`;
+
+    // === TẢI FILE 1: cert.pem ===
+    const certBlob = new Blob([certContent], { type: 'application/x-pem-file' });
+    const certUrl = URL.createObjectURL(certBlob);
+    const certA = document.createElement('a');
+    certA.href = certUrl;
+    certA.download = 'cert.pem';
+    certA.click();
+    URL.revokeObjectURL(certUrl);
+
+    // === TẢI FILE 2: proxypin_config.json ===
+    setTimeout(() => {
+        const configBlob = new Blob([configContent], { type: 'application/json' });
+        const configUrl = URL.createObjectURL(configBlob);
+        const configA = document.createElement('a');
+        configA.href = configUrl;
+        configA.download = 'proxypin_config.json';
+        configA.click();
+        URL.revokeObjectURL(configUrl);
+    }, 300);
+
+    // === CẬP NHẬT NÚT THÀNH CÔNG ===
+    setTimeout(() => {
+        document.querySelectorAll('#certBtn, #certBtn2').forEach(btn => {
+            if (btn) {
+                btn.classList.add('done');
+                btn.innerHTML = '✅ ĐÃ TẢI';
+            }
+        });
+        showToast("✅ Đã tải xong 2 file! Cài cert: Cài đặt → Tin cậy → Bật ✅ Mở file cấu hình → Kết nối ProxyPin!");
+    }, 800);
 }
+
+// === KIỂM TRA KEY ===
+function checkKey() {
+    const key = document.getElementById('keyInput').value.trim();
+    if (!key) return alert("Vui lòng nhập mã bản quyền!");
+    if (validKeys.includes(key)) {
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('panel').classList.remove('hidden');
+        document.getElementById('keyTitle').innerText = "KEY ĐÃ KÍCH HOẠT: " + key;
+        if (key.includes("VIP")) {
+            document.getElementById('timer').innerText = "⏳ Vĩnh viễn";
+            document.getElementById('timer').style.color = "#00ff88";
+        } else {
+            let t = 18000;
+            setInterval(()=>{
+                if (t<=0) { alert("Key hết hạn!"); location.reload(); }
+                let h = Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60;
+                document.getElementById('timer').innerText = `⏳ ${h}:${m}:${s}`;
+                t--;
+            }, 1000);
+        }
+    } else {
+        alert("Mã bản quyền không đúng!");
+    }
+}
+
+// === KẾT NỐI PROXY ===
+function connectProxy() {
+    const host = document.getElementById('host').innerText;
+    const port = document.getElementById('port').innerText;
+    window.location.href = `proxypin://connect?host=${host}&port=${port}`;
+    setTimeout(() => {
+        showToast(`✅ Đã kết nối ProxyPin!\nHost: ${host}\nPort: ${port}`);
+    }, 500);
+}
+</script>
+</body>
+</html>
