@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MINH QUÂN IOS PANEL</title>
+    <title>MINH QUÂN IOS - GAME MOD PANEL</title>
     <style>
         :root {
             --bg-color: #06010f;
@@ -12,8 +12,8 @@
             --border-color: rgba(255, 255, 255, 0.1);
             --text-color: #ffffff;
             --text-purple: #c599ff;
-            --btn-main-bg: #1d033a;
             --btn-main-border: #6a25b3;
+            --neon-glow: 0 0 15px rgba(168, 85, 247, 0.6);
         }
 
         * {
@@ -45,275 +45,164 @@
             text-align: center;
         }
 
-        .key-display {
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            color: var(--text-purple);
-            margin-bottom: 24px;
-            border: 1px solid rgba(197, 153, 255, 0.15);
-            word-break: break-all;
+        .brand-header {
             text-align: left;
-        }
-
-        .info-row {
+            margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 20px;
+            align-items: flex-start;
         }
 
-        .info-box {
-            background: var(--box-bg);
-            border: 1px solid var(--border-color);
-            padding: 10px 18px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .brand-title h1 {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(to right, #ffffff, #c599ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(197, 153, 255, 0.3);
         }
 
-        .aim-control-box {
-            background: var(--box-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .aim-text-group {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .aim-status {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .aim-title {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 54px;
-            height: 30px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #000000;
-            transition: .3s;
-            border-radius: 30px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 24px;
-            width: 24px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #a855f7;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(24px);
-        }
-
-        .server-info-box {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 18px;
-            text-align: left;
-            margin-bottom: 28px;
-        }
-
-        .server-header {
+        .brand-title p {
             font-size: 11px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 12px;
+            margin-top: 2px;
+        }
+
+        .status-badge {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 8px 12px;
+            font-size: 11px;
+            text-align: right;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-online {
+            color: #00ffcc;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: flex-end;
+            gap: 5px;
         }
 
-        .server-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-        
-        .server-row:last-child {
-            margin-bottom: 0;
+        .status-online::before {
+            content: ""; width: 6px; height: 6px; background: #00ffcc; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #00ffcc;
         }
 
-        .server-label {
-            color: rgba(255, 255, 255, 0.6);
+        .status-details {
+            color: rgba(255, 255, 255, 0.6); margin-top: 4px; font-family: monospace;
         }
 
-        .server-value {
-            font-weight: 500;
-            color: #ffffff;
+        .license-header {
+            text-align: left; font-size: 11px; font-weight: bold; color: rgba(255, 255, 255, 0.5); letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
         }
+
+        .input-box {
+            width: 100%; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(168, 85, 247, 0.3); padding: 18px; border-radius: 20px; font-size: 15px; color: #ffffff; outline: none; margin-bottom: 20px; text-align: left; transition: all 0.3s;
+        }
+
+        .input-box:focus { border-color: #a855f7; box-shadow: var(--neon-glow); }
+        .input-box::placeholder { color: rgba(255, 255, 255, 0.25); }
+
+        .key-display {
+            background-color: rgba(0, 0, 0, 0.3); padding: 16px; border-radius: 20px; font-size: 13px; font-weight: bold; letter-spacing: 0.5px; color: var(--text-purple); margin-bottom: 24px; border: 1px solid rgba(197, 153, 255, 0.15); word-break: break-all; text-align: left;
+        }
+
+        .info-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+        .info-box { background: var(--box-bg); border: 1px solid var(--border-color); padding: 10px 18px; border-radius: 20px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+
+        .aim-control-box {
+            background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; text-align: left;
+        }
+
+        .aim-text-group { display: flex; flex-direction: column; gap: 2px; }
+        .aim-status { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255, 255, 255, 0.5); }
+        .aim-title { font-size: 16px; font-weight: bold; }
+
+        .switch { position: relative; display: inline-block; width: 54px; height: 30px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; transition: .3s; border-radius: 30px; }
+        .slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+        input:checked + .slider { background-color: #a855f7; }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .server-info-box { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 18px; text-align: left; margin-bottom: 28px; }
+        .server-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(255, 255, 255, 0.4); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .server-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
+        .server-label { color: rgba(255, 255, 255, 0.6); }
+        .server-value { font-weight: 500; color: #ffffff; }
 
         .btn-main {
-            background: linear-gradient(135deg, #1b0235, #2d045a);
-            color: #ffffff;
-            border: 1px solid var(--btn-main-border);
-            width: 100%;
-            padding: 18px;
-            border-radius: 20px;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease;
+            background: rgba(168, 85, 247, 0.1); color: #ffffff; border: 1px solid #a855f7; width: 100%; padding: 18px; border-radius: 20px; font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; margin-bottom: 20px; box-shadow: inset 0 0 10px rgba(168, 85, 247, 0.2); transition: all 0.2s ease;
         }
+        .btn-main:active { transform: scale(0.98); box-shadow: var(--neon-glow); }
 
-        .btn-main:active {
-            transform: scale(0.98);
-            opacity: 0.9;
-        }
-
-        .sub-buttons-group {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .btn-sub {
-            flex: 1;
-            background: var(--box-bg);
-            color: #ffffff;
-            border: 1px solid var(--border-color);
-            padding: 14px;
-            border-radius: 18px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            transition: background 0.2s;
-        }
-
-        .btn-sub:active {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .footer-credit {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 4px;
-        }
+        .sub-buttons-group { display: flex; gap: 12px; margin-bottom: 24px; }
+        .btn-sub { flex: 1; background: rgba(255, 255, 255, 0.03); color: #ffffff; border: 1px solid var(--border-color); padding: 14px; border-radius: 18px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; }
+        .btn-sub:active { background: rgba(255, 255, 255, 0.1); }
+        .footer-credit { font-size: 12px; color: rgba(255, 255, 255, 0.3); display: flex; justify-content: center; align-items: center; gap: 4px; }
     </style>
 </head>
 <body>
 
     <div class="panel-container">
-        <div class="key-display">MINH-QUÂN-IOS-A101-VIP</div>
-        
-        <div class="info-row">
-            <div class="info-box">14.162.37.119</div>
-            <div class="info-box">⏳ 10:51:39</div>
-        </div>
-        
-        <div class="aim-control-box">
-            <div class="aim-text-group">
-                <span class="aim-status">AIM ACTIVE</span>
-                <span class="aim-title">Aim drag 7.0</span>
+        <div class="brand-header">
+            <div class="brand-title">
+                <!-- 1. THAY TÊN TRANG WEB HOẶC TÊN GAME CỦA BẠN TẠI ĐÂY -->
+                <h1>MINH QUÂN IOS</h1>
+                <p>NEW GAME BY ME</p>
             </div>
-            <label class="switch">
-                <input type="checkbox" id="aimToggle" checked onchange="updateAimStatus()">
-                <span class="slider"></span>
-            </label>
-        </div>
-        
-        <div class="server-info-box">
-            <div class="server-header">💻 SERVER INFO</div>
-            <div class="server-row">
-                <span class="server-label">Host:</span>
-                <span class="server-value" id="hostIp">apex.MINHQUANIOS.store</span>
-            </div>
-            <div class="server-row">
-                <span class="server-label">Port:</span>
-                <span class="server-value" id="portNumber">8888</span>
+            <div class="status-badge">
+                <div class="status-online">ONLINE</div>
+                <div class="status-details">PING <span id="pingVal">24</span>ms USERS <span id="userVal">4312</span></div>
             </div>
         </div>
-        
-        <button class="btn-main" id="mainActionBtn" onclick="triggerProxyPin()">KÍCH HOẠT PROXY →</button>
-        
-        <div class="sub-buttons-group">
-            <button class="btn-sub" onclick="alert('Đang làm mới thông tin mã Key...')">🔒 GET KEY</button>
-            <button class="btn-sub" onclick="window.location.href='https://minhquanios.store'">🛡️ CERT</button>
+
+        <!-- MÀN HÌNH 1: ĐĂNG NHẬP LICENSE KEY -->
+        <div id="loginScreen">
+            <div class="license-header">🔑 LICENSE KEY</div>
+            <input type="text" class="input-box" id="licenseInput" placeholder="Nhập mã bản quyền...">
+            <button class="btn-main" onclick="validateKey()">KÍCH HOẠT KEY →</button>
+            <div class="sub-buttons-group">
+                <button class="btn-sub" onclick="getFreeKey()">🔓 GET KEY</button>
+                <button class="btn-sub" onclick="downloadCert()">🛡️ CERT</button>
+            </div>
         </div>
 
-        <div class="footer-credit">
-            <span>&lt;/&gt;</span> minhquanios
-        </div>
-    </div>
-
-    <script>
-        function updateAimStatus() {
-            const toggle = document.getElementById('aimToggle');
-            const mainBtn = document.getElementById('mainActionBtn');
-            if(toggle.checked) {
-                mainBtn.innerText = "KÍCH HOẠT PROXY →";
-                mainBtn.style.background = "linear-gradient(135deg, #1b0235, #2d045a)";
-            } else {
-                mainBtn.innerText = "TẮT PROXY ✕";
-                mainBtn.style.background = "linear-gradient(135deg, #220000, #440000)";
-            }
-        }
-
-        function triggerProxyPin() {
-            const host = document.getElementById('hostIp').innerText.trim();
-            const port = document.getElementById('portNumber').innerText.trim();
-            window.location.href = `proxypin://config?host=${host}&port=${port}`;
-            alert("Đang khởi chạy ProxyPin và tiến hành đồng bộ hóa dữ liệu liên kết...");
-        }
-    </script>
-</body>
-</html>
+        <!-- MÀN HÌNH 2: BẢNG ĐIỀU KHIỂN PANEL CHÍNH -->
+        <div id="panelScreen" style="display: none;">
+            <div class="key-display" id="activatedKeyTitle">ID: LOADING...</div>
+            
+            <div class="info-row">
+                <div class="info-box" id="userIp">14.162.37.119</div>
+                <div class="info-box" id="keyTimer" style="color: #ff5555;">⏳ 00:00:00</div>
+            </div>
+            
+            <div class="aim-control-box">
+                <div class="aim-text-group">
+                    <span class="aim-status">MOD ACTIVE</span>
+                    <!-- 2. THAY ĐỔI TÊN CHỨC NĂNG GAME TẠI ĐÂY -->
+                    <span class="aim-title">Aim Lock Auto 100%</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="aimToggle" checked onchange="updateAimStatus()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="server-info-box">
+                <div class="server-header">💻 SERVER INFO</div>
+                <div class="server-row">
+                    <span class="server-label">Host:</span>
+                    <!-- 3. THAY ĐỊA CHỈ HOST MÁY CHỦ GAME MỚI Ở ĐÂY -->
+                    <span class="server-value" id="customHost">server.gamecuatoi.store</span>
+                </div>
+                <div class="server-row">
+                    <span class="server-label">Port:</span>
+                    <!-- 4. THAY CỔNG PORT MÁY CHỦ GAME MỚI Ở ĐÂY -->
+                    <span class="server-value" id="customPort">9999</span>
+                </div>
