@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MINH QUÂN IOS - GAME MOD PANEL</title>
+    <title>MINH QUÂN IOS - FREE FIRE MAX PANEL</title>
     <style>
         :root {
             --bg-color: #06010f;
@@ -150,11 +150,12 @@
 <body>
 
     <div class="panel-container">
+        <!-- ĐẦU TRANG THƯƠNG HIỆU GAME (Mẫu: Free Fire Max) -->
         <div class="brand-header">
             <div class="brand-title">
-                <!-- 1. THAY TÊN TRANG WEB HOẶC TÊN GAME CỦA BẠN TẠI ĐÂY -->
-                <h1>MINH QUÂN IOS</h1>
-                <p>NEW GAME BY ME</p>
+                <!-- [1. THAY TÊN TRÒ CHƠI / WEBSITE CỦA BẠN] -->
+                <h1>FREE FIRE MAX</h1>
+                <p>BY MINH QUÂN IOS</p>
             </div>
             <div class="status-badge">
                 <div class="status-online">ONLINE</div>
@@ -162,18 +163,20 @@
             </div>
         </div>
 
-        <!-- MÀN HÌNH 1: ĐĂNG NHẬP LICENSE KEY -->
+        <!-- ================= MÀN HÌNH 1: NHẬP LICENSE KEY ================= -->
         <div id="loginScreen">
             <div class="license-header">🔑 LICENSE KEY</div>
             <input type="text" class="input-box" id="licenseInput" placeholder="Nhập mã bản quyền...">
+            
             <button class="btn-main" onclick="validateKey()">KÍCH HOẠT KEY →</button>
+            
             <div class="sub-buttons-group">
-                <button class="btn-sub" onclick="getFreeKey()">🔓 GET KEY</button>
+                <button class="btn-sub" id="btnGetKey" onclick="getFreeKey()">🔓 GET KEY</button>
                 <button class="btn-sub" onclick="downloadCert()">🛡️ CERT</button>
             </div>
         </div>
 
-        <!-- MÀN HÌNH 2: BẢNG ĐIỀU KHIỂN PANEL CHÍNH -->
+        <!-- ================= MÀN HÌNH 2: BẢNG PANEL ĐIỀU KHIỂN ================= -->
         <div id="panelScreen" style="display: none;">
             <div class="key-display" id="activatedKeyTitle">ID: LOADING...</div>
             
@@ -184,9 +187,9 @@
             
             <div class="aim-control-box">
                 <div class="aim-text-group">
-                    <span class="aim-status">MOD ACTIVE</span>
-                    <!-- 2. THAY ĐỔI TÊN CHỨC NĂNG GAME TẠI ĐÂY -->
-                    <span class="aim-title">Aim Lock Auto 100%</span>
+                    <span class="aim-status">CAN THIỆP GAME ACTIVE</span>
+                    <!-- [2. THAY TÊN TÍNH NĂNG CAN THIỆP TẠI ĐÂY] -->
+                    <span class="aim-title">Aim drag 7.0 (Auto Lock)</span>
                 </div>
                 <label class="switch">
                     <input type="checkbox" id="aimToggle" checked onchange="updateAimStatus()">
@@ -195,14 +198,10 @@
             </div>
             
             <div class="server-info-box">
-                <div class="server-header">💻 SERVER INFO</div>
+                <div class="server-header">📡 SERVER INFO (BYPASS CONFIG)</div>
                 <div class="server-row">
                     <span class="server-label">Host:</span>
-                    <!-- 3. THAY ĐỊA CHỈ HOST MÁY CHỦ GAME MỚI Ở ĐÂY -->
-                    <span class="server-value" id="customHost">server.gamecuatoi.store</span>
+                    <!-- [3. THAY ĐỊA CHỈ SERVER CHẶN FILE GAME Ở ĐÂY] -->
+                    <span class="server-value" id="customHost">apex.MINHQUANIOS.store</span>
                 </div>
                 <div class="server-row">
-                    <span class="server-label">Port:</span>
-                    <!-- 4. THAY CỔNG PORT MÁY CHỦ GAME MỚI Ở ĐÂY -->
-                    <span class="server-value" id="customPort">9999</span>
-                </div>
