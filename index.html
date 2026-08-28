@@ -27,6 +27,31 @@
         .key-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 16px; color: #c599ff; font-weight: bold; margin-bottom: 15px; word-break: break-all; }
         .row { display: flex; justify-content: space-between; gap: 10px; margin: 15px 0; }
         .info { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; font-size: 13px; }
+        /* === AIM DRAG TOGGLE === */
+        .aim-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+        .aim-text h3 { font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .aim-text p { font-size: 16px; font-weight: bold; color: #fff; }
+        .toggle-switch { position: relative; display: inline-block; width: 52px; height: 30px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #2a2a2a; border-radius: 30px; transition: .3s;
+        }
+        .toggle-slider:before {
+            position: absolute; content: ""; height: 24px; width: 24px; left: 3px; bottom: 3px;
+            background-color: white; border-radius: 50%; transition: .3s;
+        }
+        input:checked + .toggle-slider { background-color: #a855f7; }
+        input:checked + .toggle-slider:before { transform: translateX(22px); }
         .server { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 16px; margin: 15px 0; font-size: 14px; }
         .server div { display: flex; justify-content: space-between; margin: 8px 0; }
         .footer { text-align: center; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.3); }
@@ -65,8 +90,21 @@
                 <div class="info" id="ip">Đang lấy IP...</div>
                 <div class="info" id="timer" style="color:#ff5555;">⏳ 05:00:00</div>
             </div>
+
+            <!-- === AIM DRAG 7.0 — ĐÃ THÊM === -->
+            <div class="aim-box">
+                <div class="aim-text">
+                    <h3>CAN THIỆP GAME ACTIVE</h3>
+                    <p>Aim drag 7.0 (Auto Lock)</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="aimToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
             <div class="server">
-                <div><strong>📡 SERVER INFO</strong></div>
+                <div><strong>📡 SERVER INFO (BYPASS CONFIG)</strong></div>
                 <div><span>Host:</span><span id="host">apex.MINHQUANIOS.store</span></div>
                 <div><span>Port:</span><span id="port">8888</span></div>
             </div>
@@ -114,11 +152,8 @@ fetch('https://api.ipify.org?format=json')
     .then(d=>document.getElementById('ip').innerText = d.ip)
     .catch(()=>document.getElementById('ip').innerText = '14.162.37.119');
 
-// === TẢI 2 FILE — ĐỊNH DẠNG CHUẨN, KHÔNG LỖI ===
 function downloadAll() {
     showToast("📥 Đang tải chứng chỉ & hồ sơ cấu hình...");
-
-    // === FILE 1: cert.pem — CHUẨN ĐỊNH DẠNG PEM ===
     const certContent = `-----BEGIN CERTIFICATE-----
 MIIF5zCCA8+gAwIBAgIUbXluaHFhbjEwMDktYm9vcC5naXRodWIuaW8wggEiMA0G
 CSqGSIb3DQEBCwUAMIGnMTgwNgYDVQQDDC1hcGV4Lk1JSEhRVUFTSU9TLnN0b3Jl
@@ -140,18 +175,12 @@ G6gH7gI8gJ9gK0gL1gM2gN3gO4gP5gQ6gR7gS8gT9gU0gV1gW2gX3gY4gZ5maW50
 ZXJuZXQgUHJveHkgQ2VydGlmaWNhdGUgU2VjdXJpdHkgLSB3d3cubWluaHF1YW5p
 by5zdG9yZQ==
 -----END CERTIFICATE-----`;
-
-    // === FILE 2: proxypin_config.json — CHUẨN JSON, KHÔNG LỖI ===
     const configContent = '{"name":"MINH_QUAN_IOS_PROXY","host":"apex.MINHQUANIOS.store","port":8888,"protocol":"HTTPS","bypass":["localhost","127.0.0.1"]}';
-
-    // TẢI FILE 1: cert.pem
     const certBlob = new Blob([certContent], { type: 'application/x-pem-file' });
     const certUrl = URL.createObjectURL(certBlob);
     const certA = document.createElement('a');
     certA.href = certUrl; certA.download = 'cert.pem'; certA.click();
     URL.revokeObjectURL(certUrl);
-
-    // TẢI FILE 2: proxypin_config.json — TRỄ 400ms ĐỂ TRÙNG NỐT
     setTimeout(() => {
         const configBlob = new Blob([configContent], { type: 'application/json' });
         const configUrl = URL.createObjectURL(configBlob);
@@ -159,8 +188,6 @@ by5zdG9yZQ==
         configA.href = configUrl; configA.download = 'proxypin_config.json'; configA.click();
         URL.revokeObjectURL(configUrl);
     }, 400);
-
-    // CẬP NHẬT NÚT + HƯỚNG DẪN
     setTimeout(() => {
         document.querySelectorAll('#certBtn, #certBtn2').forEach(btn => {
             if (btn) { btn.classList.add('done'); btn.innerHTML = '✅ ĐÃ TẢI'; }
