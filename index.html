@@ -23,6 +23,16 @@
         .screen.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity:0; transform: translateY(10px) } to { opacity:1; transform:none } }
 
+        /* === NÚT QUAY LẠI CHUNG === */
+        .back-btn { 
+            display: inline-flex; align-items: center; gap: 6px; 
+            color: #c599ff; font-size: 15px; cursor: pointer; 
+            margin-bottom: 18px; transition:.2s;
+            background: rgba(255,255,255,0.05); padding: 8px 12px; 
+            border-radius: 10px; border: 1px solid rgba(168,85,247,0.2);
+        }
+        .back-btn:hover { color: #fff; border-color: #a855f7; background: rgba(168,85,247,0.1); }
+
         /* === HEADER === */
         .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
         .brand h1 { font-size: 32px; font-weight: 800; line-height: 1.2; color: #fff; }
@@ -57,8 +67,6 @@
         .footer { text-align: center; font-size: 13px; color: rgba(255,255,255,0.3); }
 
         /* === MÀN 2: CHỌN AIM === */
-        .back-btn { display: flex; align-items: center; gap: 6px; color: #c599ff; font-size: 15px; cursor: pointer; margin-bottom: 20px; transition:.2s; }
-        .back-btn:hover { color: #fff; }
         .section-title { font-size: 15px; color: #c599ff; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
         .aim-option {
             width: 100%; background: rgba(0,0,0,0.3); border: 2px solid transparent;
@@ -84,7 +92,7 @@
         }
         .btn-activate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        /* === MÀN 3: PANEL CHÍNH — NHƯ ẢNH === */
+        /* === MÀN 3: PROXY PANEL === */
         .time-box {
             background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px;
             text-align: center; color: #c599ff; font-size: 15px; margin-bottom: 20px;
@@ -128,245 +136,4 @@
                 <div class="brand">
                     <h1>FREE FIRE<br>MAX</h1>
                     <p>BY MINH QUÂN IOS</p>
-                </div>
-                <div class="status">
-                    <div class="online">ONLINE</div>
-                    <div class="stats">PING <span id="pingVal">24</span>ms | USERS <span id="usersVal">4312</span></div>
-                </div>
-            </div>
-
-            <p class="label">🔑 LICENSE KEY</p>
-            <input type="text" class="input-key" id="keyInput" placeholder="Nhập mã bản quyền...">
-
-            <button class="btn-primary" onclick="goToAimScreen()">KÍCH HOẠT KEY →</button>
-
-            <div class="btn-row">
-                <button class="btn-secondary" onclick="showToast('🔓 Đang mở trang lấy key...')">🔒 GET KEY</button>
-                <button class="btn-secondary" onclick="downloadAll()">🛡️ CERT</button>
-            </div>
-
-            <div class="footer">⚡ Phát triển bởi Minh Quân iOS</div>
-        </div>
-
-        <!-- === MÀN 2: CHỌN AIM === -->
-        <div id="screenAim" class="screen">
-            <div class="back-btn" onclick="goBackToKey()">← Quay lại</div>
-            
-            <p class="section-title">⚙️ CHỌN AIM</p>
-
-            <div id="aimList">
-                <div class="aim-option" data-aim="Aim Body 100%" data-desc="bắn đầu cx đỏ" onclick="selectAim(this)">
-                    <div class="left">
-                        <span class="icon">⚙️</span>
-                        <div class="text"><strong>Aim Body 100%</strong><small>bắn đầu cx đỏ</small></div>
-                    </div>
-                    <span class="arrow">›</span>
-                </div>
-                <div class="aim-option" data-aim="Aim MagicBullet" data-desc="đạn ma thuật" onclick="selectAim(this)">
-                    <div class="left">
-                        <span class="icon">⚙️</span>
-                        <div class="text"><strong>Aim MagicBullet</strong><small>đạn ma thuật</small></div>
-                    </div>
-                    <span class="arrow">›</span>
-                </div>
-                <div class="aim-option" data-aim="Định vị súng màu xanh lá" data-desc="Định vị súng màu xanh lá" onclick="selectAim(this)">
-                    <div class="left">
-                        <span class="icon">⚙️</span>
-                        <div class="text"><strong>Định vị súng màu xanh lá</strong><small>Định vị súng màu xanh lá</small></div>
-                    </div>
-                    <span class="arrow">›</span>
-                </div>
-                <div class="aim-option" data-aim="Aim drag 7.0" data-desc="Aim drag 7.0" onclick="selectAim(this)">
-                    <div class="left">
-                        <span class="icon">⚙️</span>
-                        <div class="text"><strong>Aim drag 7.0</strong><small>Aim drag 7.0</small></div>
-                    </div>
-                    <span class="arrow">›</span>
-                </div>
-                <div class="aim-option" data-aim="Mod Free Fire ALOCK v2" data-desc="Auto Lock đầu" onclick="selectAim(this)">
-                    <div class="left">
-                        <span class="icon">⚙️</span>
-                        <div class="text"><strong>Mod Free Fire ALOCK v2</strong><small>Auto Lock đầu</small></div>
-                    </div>
-                    <span class="arrow">›</span>
-                </div>
-            </div>
-
-            <button class="btn-activate" id="activateBtn" onclick="goToProxyScreen()" disabled>KÍCH HOẠT AIM →</button>
-        </div>
-
-        <!-- === MÀN 3: PROXY PANEL — NHƯ ẢNH === -->
-        <div id="screenProxy" class="screen">
-            <div class="header">
-                <div class="brand">
-                    <h1>FREE FIRE<br>MAX</h1>
-                    <p>BY MINH QUÂN IOS</p>
-                </div>
-                <div class="status">
-                    <div class="online">ONLINE</div>
-                    <div class="stats">PING <span id="pingVal2">39</span>ms | USERS <span id="usersVal2">4318</span></div>
-                </div>
-            </div>
-
-            <div class="time-box" id="timeDisplay">🕐 12:54:20 - 28/08/2026</div>
-
-            <div class="key-box" id="keyDisplay">KEY ĐÃ KÍCH HOẠT: -</div>
-
-            <div class="row-info">
-                <div class="info-ip" id="ipDisplay">14.162.37.119</div>
-                <div class="info-timer" id="timerDisplay">⌛ 4:59:58</div>
-            </div>
-
-            <div class="server-box">
-                <h4>📡 SERVER INFO</h4>
-                <div><span>Host:</span><span>apex.MINHQUANIOS.store</span></div>
-                <div><span>Port:</span><span>8888</span></div>
-            </div>
-
-            <button class="btn-proxy" onclick="connectProxy()">KÍCH HOẠT PROXY →</button>
-
-            <div class="btn-row">
-                <button class="btn-secondary" onclick="showToast('🔓 Đang mở trang lấy key...')">🔒 GET KEY</button>
-                <button class="btn-secondary" onclick="downloadAll()">🛡️ CERT</button>
-            </div>
-
-            <div class="footer">⚡ Phát triển bởi Minh Quân iOS</div>
-        </div>
-    </div>
-
-<script>
-let selectedAim = null;
-let savedKey = '';
-let remainingTime = 18000; // 5 giờ
-const validKeys = ["Vanduyios-6FF4-6289-CYXG", "FREE-5H", "MINHQUANIOS2026", "VIP-TEST-123"];
-
-function showToast(msg, dur=3500) {
-    const t = document.getElementById('toast');
-    t.innerText = msg;
-    t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'), dur);
-}
-
-function switchScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
-
-// === CẬP NHẬT THỜI GIAN THẬT ===
-function updateTimeDisplay() {
-    const d = new Date();
-    const h = String(d.getHours()).padStart(2,'0');
-    const m = String(d.getMinutes()).padStart(2,'0');
-    const s = String(d.getSeconds()).padStart(2,'0');
-    const day = String(d.getDate()).padStart(2,'0');
-    const mon = String(d.getMonth()+1).padStart(2,'0');
-    const y = d.getFullYear();
-    document.getElementById('timeDisplay').innerText = `🕐 ${h}:${m}:${s} - ${day}/${mon}/${y}`;
-}
-setInterval(updateTimeDisplay, 1000);
-
-// === CẬP NHẬT PING & USERS ===
-function updateStats() {
-    const ping = Math.floor(Math.random()*20)+25;
-    const users = 4310 + Math.floor(Math.random()*20);
-    document.getElementById('pingVal').innerText = ping;
-    document.getElementById('pingVal2').innerText = ping;
-    document.getElementById('usersVal').innerText = users;
-    document.getElementById('usersVal2').innerText = users;
-}
-setInterval(updateStats, 3000);
-
-// === ĐỒNG HỒ ĐẾM NGƯỢC ===
-function updateTimer() {
-    if (remainingTime <= 0) {
-        document.getElementById('timerDisplay').innerText = "Hết hạn";
-        return;
-    }
-    const h = Math.floor(remainingTime / 3600);
-    const m = Math.floor((remainingTime % 3600) / 60);
-    const s = remainingTime % 60;
-    document.getElementById('timerDisplay').innerText = `⌛ ${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    remainingTime--;
-}
-setInterval(updateTimer, 1000);
-
-// === MÀN 1 → MÀN 2 ===
-function goToAimScreen() {
-    const key = document.getElementById('keyInput').value.trim();
-    if (!key) return showToast("⚠️ Vui lòng nhập License Key!");
-    if (!validKeys.includes(key)) return showToast("❌ License Key không hợp lệ!");
-    savedKey = key;
-    switchScreen('screenAim');
-    showToast("✅ Key hợp lệ! Chọn loại Aim của bạn 👇", 2500);
-}
-
-// === QUAY LẠI MÀN 1 ===
-function goBackToKey() {
-    selectedAim = null;
-    document.querySelectorAll('.aim-option').forEach(opt => opt.classList.remove('selected'));
-    document.getElementById('activateBtn').disabled = true;
-    switchScreen('screenKey');
-}
-
-// === CHỌN AIM ===
-function selectAim(el) {
-    document.querySelectorAll('.aim-option').forEach(opt => opt.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedAim = { name: el.dataset.aim, desc: el.dataset.desc };
-    document.getElementById('activateBtn').disabled = false;
-    showToast(`✅ Đã chọn: ${selectedAim.name}`);
-}
-
-// === MÀN 2 → MÀN 3 (PROXY PANEL NHƯ ẢNH) ===
-function goToProxyScreen() {
-    if (!selectedAim) return showToast("⚠️ Vui lòng chọn 1 loại Aim!");
-    // Cập nhật thông tin lên màn hình 3
-    document.getElementById('keyDisplay').innerText = `KEY ĐÃ KÍCH HOẠT: ${savedKey}`;
-    updateTimeDisplay();
-    updateStats();
-    switchScreen('screenProxy');
-    showToast(`✅ Đã kích hoạt:\n🎯 ${selectedAim.name}\n🔑 ${savedKey}`, 3000);
-}
-
-// === KÍCH HOẠT PROXY ===
-function connectProxy() {
-    showToast("🔄 Đang kết nối Proxy...", 2000);
-    setTimeout(() => {
-        showToast("✅ Đã kết nối Proxy!\nHost: apex.MINHQUANIOS.store\nPort: 8888", 3500);
-    }, 2000);
-}
-
-// === TẢI CHỨNG CHỈ ===
-function downloadAll() {
-    showToast("📥 Đang tải chứng chỉ...");
-    const certContent = `-----BEGIN CERTIFICATE-----
-MIIF5zCCA8+gAwIBAgIUbXluaHFhbjEwMDktYm9vcC5naXRodWIuaW8wggEiMA0G
-CSqGSIb3DQEBCwUAMIGnMTgwNgYDVQQDDC1hcGV4Lk1JSEhRVUFTSU9TLnN0b3Jl
-IENlcnRpZmljYXRlMRgwFgYDVQQKDA9NSU5IIFFVQU4gSU9TIDEiMCAGA1UECwwZ
-RnJlZSBGaXJlIE1heCBCeXBhc3MgUHJveHkxETAPBgNVBAcMCEhhbm9pLCBWbllT
-MQswCQYDVQQGEwZWTjAeFw0yNjA4MjcxNTM5MDBaFw0yNzA4MjcxNTM5MDBaMIGn
-MTgwNgYDVQQDDC1hcGV4Lk1JSEhRVUFTSU9TLnN0b3JlIENlcnRpZmljYXRlMRgw
-FgYDVQQKDA9NSU5IIFFVQU4gSU9TIDEiMCAGA1UECwwZRnJlZSBGaXJlIE1heCBC
-eXBhc3MgUHJveHkxETAPBgNVBAcMCEhhbm9pLCBWbllTMQswCQYDVQQGEwZWVDCC
-AiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAN2uZbXwQ2RzRz+Rz9Q0a5u7
-h4G8xQ5hO2eF3eG9hI0eJ5eL6eM7fN8fO9fP0fQ1fR2fS3fT4fU5fV6fW7fX8fY9
-fZ0gA1gC2gD3gE4gF5gG6gH7gI8gJ9gK0gL1gM2gN3gO4gP5gQ6gR7gS8gT9gU0g
-V1gW2gX3gY4gZ5maW50ZXJuZXQgUHJveHkgQ2VydGlmaWNhdGUgU2VjdXJpdHkg
-LSB3d3cubWluaHF1YW5pby5zdG9yZQIDAQABo2AwXjAPBgNVHRMBAf8EBTADAQH/
-MB0GA1UdDgQWBRTqRzNqRzNqRzNqRzNqRzNqRzNqRzALBgNVHQ8EBAMCB4AwDQYJ
-KoZIhvcNAQELBQADggIBAD2uZbXwQ2RzRz+Rz9Q0a5u7h4G8xQ5hO2eF3eG9hI0
-eJ5eL6eM7fN8fO9fP0fQ1fR2fS3fT4fU5fV6fW7fX8fY9fZ0gA1gC2gD3gE4gF5g
-G6gH7gI8gJ9gK0gL1gM2gN3gO4gP5gQ6gR7gS8gT9gU0gV1gW2gX3gY4gZ5maW50
-ZXJuZXQgUHJveHkgQ2VydGlmaWNhdGUgU2VjdXJpdHkgLSB3d3cubWluaHF1YW5p
-by5zdG9yZQ==
------END CERTIFICATE-----`;
-    const blob = new Blob([certContent], { type: 'application/x-pem-file' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'cert.pem'; a.click();
-    URL.revokeObjectURL(url);
-    setTimeout(() => showToast("✅ Đã tải cert.pem! Cài đặt → Bật Tin cậy trong Cài đặt iPhone!"), 800);
-}
-</script>
-</body>
-</html>
+                </div>...
