@@ -37,8 +37,11 @@
             justify-content: space-between;
             align-items: center;
             margin: 15px 0;
+            transition: all 0.3s ease;
         }
+        .aim-box.off { background: rgba(255,85,85,0.05); border-color: rgba(255,85,85,0.3); }
         .aim-text h3 { font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .aim-box.off .aim-text h3 { color: rgba(255,85,85,0.6); }
         .aim-text p { font-size: 16px; font-weight: bold; color: #fff; }
         .toggle-switch { position: relative; display: inline-block; width: 52px; height: 30px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
@@ -75,6 +78,7 @@
 
         <div class="time" id="time">🕒 16:33:00 - 27/08/2026</div>
 
+        <!-- === MÀN HÌNH NHẬP KEY === -->
         <div id="login">
             <input type="text" class="input" id="keyInput" placeholder="🔑 Nhập mã bản quyền...">
             <button class="btn" onclick="checkKey()">KÍCH HOẠT KEY →</button>
@@ -84,6 +88,7 @@
             </div>
         </div>
 
+        <!-- === PANEL CHÍNH — CHỈ HIỆN KHI AIM DRAG BẬT === -->
         <div id="panel" class="hidden">
             <div class="key-box" id="keyTitle">KEY ĐÃ KÍCH HOẠT: -</div>
             <div class="row">
@@ -91,14 +96,14 @@
                 <div class="info" id="timer" style="color:#ff5555;">⏳ 05:00:00</div>
             </div>
 
-            <!-- === AIM DRAG 7.0 — ĐÃ THÊM === -->
-            <div class="aim-box">
+            <!-- === AIM DRAG 7.0 — CÓ TÍNH NĂNG TẮT/QUAY LẠI === -->
+            <div class="aim-box" id="aimBox">
                 <div class="aim-text">
-                    <h3>CAN THIỆP GAME ACTIVE</h3>
+                    <h3 id="aimStatus">CAN THIỆP GAME ACTIVE</h3>
                     <p>Aim drag 7.0 (Auto Lock)</p>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox" id="aimToggle" checked>
+                    <input type="checkbox" id="aimToggle" checked onchange="toggleAim()">
                     <span class="toggle-slider"></span>
                 </label>
             </div>
@@ -152,6 +157,38 @@ fetch('https://api.ipify.org?format=json')
     .then(d=>document.getElementById('ip').innerText = d.ip)
     .catch(()=>document.getElementById('ip').innerText = '14.162.37.119');
 
+// === CHỨC NĂNG TẮT AIM DRAG → QUAY LẠI NHẬP KEY ===
+function toggleAim() {
+    const toggle = document.getElementById('aimToggle');
+    const aimBox = document.getElementById('aimBox');
+    const aimStatus = document.getElementById('aimStatus');
+    
+    if (!toggle.checked) {
+        // ⚠️ TẮT → Quay về màn hình nhập Key
+        aimBox.classList.add('off');
+        aimStatus.innerText = "CAN THIỆP GAME TẮT";
+        aimStatus.style.color = "rgba(255,85,85,0.6)";
+        showToast("⚠️ Aim Drag đã TẮT! Đang quay lại màn hình chính...", 2000);
+        
+        // Đợi 1.5s rồi ẩn panel, hiện lại màn hình nhập key
+        setTimeout(() => {
+            document.getElementById('panel').classList.add('hidden');
+            document.getElementById('login').classList.remove('hidden');
+            // Reset toggle để lần mở sau mặc định bật lại
+            toggle.checked = true;
+            aimBox.classList.remove('off');
+            aimStatus.innerText = "CAN THIỆP GAME ACTIVE";
+            aimStatus.style.color = "";
+        }, 1500);
+    } else {
+        // ✅ BẬT → Hiện thông báo
+        aimBox.classList.remove('off');
+        aimStatus.innerText = "CAN THIỆP GAME ACTIVE";
+        aimStatus.style.color = "";
+        showToast("✅ Aim Drag 7.0 ĐÃ BẬT! Auto Lock đang hoạt động!", 2500);
+    }
+}
+
 function downloadAll() {
     showToast("📥 Đang tải chứng chỉ & hồ sơ cấu hình...");
     const certContent = `-----BEGIN CERTIFICATE-----
@@ -203,6 +240,12 @@ function checkKey() {
         document.getElementById('login').classList.add('hidden');
         document.getElementById('panel').classList.remove('hidden');
         document.getElementById('keyTitle').innerText = "KEY ĐÃ KÍCH HOẠT: " + key;
+        // Mặc định BẬT Aim Drag khi vào panel
+        document.getElementById('aimToggle').checked = true;
+        document.getElementById('aimBox').classList.remove('off');
+        document.getElementById('aimStatus').innerText = "CAN THIỆP GAME ACTIVE";
+        document.getElementById('aimStatus').style.color = "";
+        
         if (key.includes("VIP")) {
             document.getElementById('timer').innerText = "⏳ Vĩnh viễn";
             document.getElementById('timer').style.color = "#00ff88";
